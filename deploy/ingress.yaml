@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  namespace: ingress-basic
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: nginx
+  tls:
+    - secretName: tls-secret
+      hosts:
+        - akstlstest.centralus.cloudapp.azure.com
+  rules:
+    - host: akstlstest.centralus.cloudapp.azure.com
+      http:
+        paths:
+          - path: /weatherforecast
+            pathType: Prefix
+            backend:
+              service:
+                name: perf-netcorebaseline
+                port:
+                  number: 5000

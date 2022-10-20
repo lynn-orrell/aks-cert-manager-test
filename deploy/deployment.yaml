@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: perf-netcorebaseline
+  namespace: ingress-basic
+  labels:
+    app: perf-netcorebaseline
+spec:
+  selector:
+    matchLabels:
+      app: perf-netcorebaseline
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: perf-netcorebaseline
+    spec:
+      containers:
+      - name: perf-netcorebaseline
+        image: shadowc0de/perf-netcorebaseline:latest
+        resources:
+          requests:
+            cpu: 250m
+            memory: 50Mi
+          limits:
+            cpu: 500m
+            memory: 250Mi
+        ports:
+        - containerPort: 5000
+          name: http
+      restartPolicy: Always
